@@ -14,7 +14,6 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 
-# build the ICMP packet with "i'm alive" as the payload
 def send_hello():
     message = "hey server, i'm available"
     send(IP(dst=SERVER_IP)/ICMP(type=ECHO_REQUEST, id=0x001)/message)
